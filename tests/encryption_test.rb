@@ -1,11 +1,12 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require_relative '../lib/encryptor'
-require_relative '../lib/char_map'
+require '../lib/encryptor'
+require '../lib/char_map'
+require '../lib/offset_calculator'
 
 class EncryptionTest < Minitest::Test
 
-  def test_character_map_starts_with_a
+  def test_can_read_from_charactar_map
     map = Encryptor.new
 
     assert_equal "a", map.characters[0]
@@ -69,18 +70,20 @@ class EncryptionTest < Minitest::Test
   end
 
   def test_encryption_works_for_one_letter
-    encrypt = Encryptor.new("message", 12345, 010416)  #3056
+    encrypt = Encryptor.new("message", "12345", "010416")  #3056
 
-    assert_equal 'p', encrypt.encryption('m')
+    assert_equal '1', encrypt.encryption('m')
   end
 
-  # def test_encryption_works_for_whole_word
-  #   encrypt = Encryptor.new("message", 12345, 010416)
-  #
-  # end
-  #
-  # def test_encryption_from_github
-  #   encrypt = Encryptor.new("message ..end..", 12345, 010416)
-  #
-  # end
+  def test_encryption_works_for_whole_word
+    encrypt = Encryptor.new("message", 12345, 010416)
+
+    assert_equal ' ', encrypt.encryption('hello')
+  end
+
+  def test_encryption_from_github
+    encrypt = Encryptor.new("message", 12345, 010416)
+
+    assert_equal ' ', encrypt.encryption('message ..end..')
+  end
 end

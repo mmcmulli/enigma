@@ -1,6 +1,6 @@
 require 'pry'
 require 'date'
-require_relative '../lib/keygenerator'
+require '../lib/keygenerator'
 require '../lib/char_map'
 require '../lib/offset_calculator'
 
@@ -10,8 +10,8 @@ class Encryptor
 
   def initialize(message = nil, key = rand(99999), date = Date.today)
     @key = KeyGenerator.new(key)
-    @characters = CharMap.new.characters
-    @date = date_format(date)
+    @characters = CharMap.new.characters 
+    @date = (date_format(date))
     @offsets = OffsetCalculator.new(key, date)
   end
 
@@ -41,8 +41,21 @@ class Encryptor
 
   def encryption(message)
     standardize = message.downcase.chars
-
+    counter = -1
+    encrypt = standardize.map do |letter|
+      if counter == 0
+        ((@characters.index(letter) + a_offset) % 39)
+      elsif counter == 1
+        ((@characters.index(letter) + b_offset) % 39)
+      elsif counter == 2
+        ((@characters.index(letter) + c_offset) % 39)
+      elsif counter == 3
+        ((@characters.index(letter) + d_offset) % 39)
+      else
+        "message not properly encrypted"
+      end
+    encrypt.join
+    end
   end
-# binding.pry
-
 end
+# binding.pry

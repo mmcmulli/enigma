@@ -12,7 +12,7 @@ def test_key_passed_in
 end
 
 def test_date_format_passeed_in
-  calc = OffsetCalculator.new("12345", "110416") # why when i pass in a zero first does this convert it???? 
+  calc = OffsetCalculator.new("12345", "110416") # why when i pass in a zero first does this convert it????
 
   assert_equal "110416", calc.date
 end
